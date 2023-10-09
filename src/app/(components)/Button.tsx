@@ -22,6 +22,7 @@ const ButtonWrapper = styled.button`
   gap: 5px;
   padding: 6px 12px;
   max-height: 40px;
+  width: 170px;
   color: var(--white);
   font-weight: bold;
   vertical-align: center;

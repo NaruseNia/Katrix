@@ -18,7 +18,7 @@ export const ColumnContainer = (props: Props) => {
           0
           {column.title}
         </div>
-        <button onClick={() => deleteColumn(column.id)}>
+        <button style={{cursor: "pointer"}} onClick={() => deleteColumn(column.id)}>
           <TrashIcon/>
         </button>
       </Header>
@@ -28,6 +28,14 @@ export const ColumnContainer = (props: Props) => {
   )
 }
 
+const ColumnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: var(--black);
+  width: 350px;
+  height: 70vh;
+  border-radius: 6px;
+`;
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -38,14 +46,6 @@ const Header = styled.div`
   padding: 6px;
   font-weight: bold;
   color: var(--black);
-`;
-const ColumnLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: var(--black);
-  width: 350px;
-  height: 500px;
-  border-radius: 6px;
 `;
 const Content = styled.div`
   display: flex;

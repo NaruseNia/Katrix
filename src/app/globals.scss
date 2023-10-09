@@ -18,3 +18,14 @@ body {
   font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Noto Sans JP', Arial, 'Segoe UI', sans-serif !important;
   background: var(--dark-black);
 }
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+::-webkit-scrollbar-track {
+  background: var(--dark-gray);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+}

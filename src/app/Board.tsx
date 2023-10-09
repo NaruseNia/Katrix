@@ -31,10 +31,12 @@ export const Board = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.columns}>
-        {columns.map(column => (
-          <ColumnContainer key={column.id} column={column} deleteColumn={deleteColumn} />
-        ))}
+      <div className={styles.scrollable}>
+        <div className={styles.columns}>
+          {columns.map(column => (
+            <ColumnContainer key={column.id} column={column} deleteColumn={deleteColumn} />
+          ))}
+        </div>
       </div>
       <Button onClick={createColumn} className={styles.add_column_button}>
         <PlusIcon />

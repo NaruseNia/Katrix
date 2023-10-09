@@ -5,9 +5,11 @@
   align-items: center;
   margin: auto;
   color: var(--white);
-  .columns {
-    display: flex;
-    gap: 1rem;
+  .scrollable {
+    .columns {
+      display: flex;
+      gap: 1rem;
+    }
   }
   .add_column_button {
     transform: rotate(90deg);

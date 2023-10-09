@@ -1,5 +1,5 @@
 import styles from './page.module.scss'
-import {Board} from "@/app/(components)/Board";
+import {Board} from "@/app/Board";
 
 export default function Home() {
   return (
