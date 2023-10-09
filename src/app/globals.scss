@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+  font-family: 'Mona Sans';
+  src: url('/font/MonaSans.woff2') format('woff2 supports variations'),
+  url('/font/MonaSans.woff2') format('woff2-variations');
+}
+
+* {
+  --white: #f8f8f8;
+  --dark-white: #ededed;
+  --gray: #9F9F9F;
+  --dark-gray: #383838;
+  --black: #121212;
+  --dark-black: #0F0F0F;
+}
+
+body {
+  font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Noto Sans JP', Arial, 'Segoe UI', sans-serif !important;
+  background: var(--dark-black);
+}
