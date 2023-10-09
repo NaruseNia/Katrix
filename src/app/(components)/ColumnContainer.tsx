@@ -1,24 +1,45 @@
 "use client"
 
-import {ColumnType, Id} from "@/app/(components)/Column";
+import {Column, Id} from "@/app/(components)/Column";
 import styled from "styled-components";
 import {TrashIcon} from "@/app/(components)/(icon)/TrashIcon";
+import {useSortable} from "@dnd-kit/sortable";
+import {CSS} from "@dnd-kit/utilities";
+import {inspect} from "util";
+import styles = module
+import {DraggableIcon} from "@/app/(components)/(icon)/DraggableIcon";
 
 interface Props {
-  column: ColumnType;
+  column: Column;
   deleteColumn: (id: Id) => void;
 }
 
 export const ColumnContainer = (props: Props) => {
   const { column, deleteColumn} = props;
+
+  const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
+    id: column.id,
+    data: {
+      type: "Column",
+      column,
+    }
+  })
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform)
+  };
+
   return (
-    <ColumnLayout>
-      <Header>
+    <ColumnLayout ref={setNodeRef} style={style}>
+      <Header style={{background: column.color}}>
+        <div {...attributes} {...listeners}>
+          <DraggableIcon />
+        </div>
         <div>
-          0
           {column.title}
         </div>
-        <button style={{cursor: "pointer"}} onClick={() => deleteColumn(column.id)}>
+        <button style={{cursor: "pointer", zIndex: 12}} onClick={() => deleteColumn(column.id)}>
           <TrashIcon/>
         </button>
       </Header>
@@ -40,12 +61,15 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   vertical-align: center;
-  background: #f13484;
+  height: 45px;
   width: 100%;
   border-radius: 6px 6px 0 0;
   padding: 6px;
   font-weight: bold;
   color: var(--black);
+  div + div {
+    margin-left: 6px;
+  }
 `;
 const Content = styled.div`
   display: flex;
