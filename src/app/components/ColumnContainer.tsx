@@ -95,7 +95,7 @@ export const ColumnContainer = (props: Props) => {
         </SortableContext>
       </Content>
       <AddButton onClick={() => {
-        setCards([...cards, {id: createId(), title: "新しいカード", description: "", createdAt: new Date()}]);
+        setCards([...cards, {id: createId(), title: "新しいカード", description: "", createdAt: new Date(), parent: column}]);
       }}>
         <PlusIcon />
         カードを追加

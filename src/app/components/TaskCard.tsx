@@ -68,7 +68,7 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
   }, [descEdit]);
 
   return (
-    <CardWrapper ref={setNodeRef} style={style}>
+    <CardWrapper color={card.parent.color} ref={setNodeRef} style={style}>
       <div className="draggable" {...attributes} {...listeners}>
         <DraggableIcon width={12}/>
       </div>
@@ -105,7 +105,7 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
   )
 };
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<{color: string}>`
   display: flex;
   width: 90%;
   min-height: 200px;
@@ -113,6 +113,12 @@ const CardWrapper = styled.div`
   margin-top: 1rem;
   padding: 16px 0;
   border-radius: 6px;
+  &:before {
+    width: 4px;
+    height: 100%;
+    content: "";
+    ${(props) => `background: ${props.color}`};
+  }
   .draggable {
     display: grid;
     place-items: center;
