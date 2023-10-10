@@ -6,7 +6,7 @@ import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import {DraggableIcon} from "@/app/components/icon/DraggableIcon";
 import {TaskCard} from "@/app/components/TaskCard";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import styled from "styled-components";
 import PlusIcon from "@/app/components/icon/PlusIcon";
 
@@ -19,7 +19,10 @@ export const ColumnContainer = (props: Props) => {
   const { column, deleteColumn} = props;
 
   const [cards, setCards] = useState<Card[]>([]);
+  const [editTitle, setEditTitle] = useState<boolean>(false);
   const cardsId = useMemo(() => cards.map(c => c.id), [cards])
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
     id: column.id,
@@ -43,17 +46,45 @@ export const ColumnContainer = (props: Props) => {
     setCards(filtered);
   }
 
+  const confirmEdit = (e: KeyboardEvent) => {
+    if (inputRef != null && inputRef.current.value != "") {
+      if (e.key == "Enter") {
+        column.title = inputRef.current.value
+        setEditTitle(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (inputRef.current != null) {
+      inputRef.current.focus();
+      inputRef.current.value = column.title;
+    }
+  }, [editTitle]);
+
   return (
     <ColumnLayout ref={setNodeRef} style={style}>
       <Header style={{background: column.color}}>
         <div {...attributes} {...listeners}>
           <DraggableIcon />
         </div>
-        <div>
-          {column.title}
-        </div>
-        <button className="trash" style={{cursor: "pointer", zIndex: 12}} onClick={() => deleteColumn(column.id)}>
-          <TrashIcon/>
+        {editTitle ?
+          <div className="title">
+            <input
+              onBlur={() => setEditTitle(false)}
+              onKeyDown={(e) => confirmEdit(e)}
+              ref={inputRef}
+            />
+          </div>
+          :
+          <div className="title" onClick={() => setEditTitle(true)}>
+            {column.title}
+          </div>
+        }
+        <button className="trash">
+          <div onClick={() => deleteColumn(column.id)} style={{cursor: "pointer", zIndex: 12}}>
+            <TrashIcon/>
+          </div>
         </button>
       </Header>
       <Content>
@@ -64,10 +95,10 @@ export const ColumnContainer = (props: Props) => {
         </SortableContext>
       </Content>
       <AddButton onClick={() => {
-        setCards([...cards, {id: createId(), title: createId(), description: "", createdAt: new Date()}]);
+        setCards([...cards, {id: createId(), title: "新しいカード", description: "", createdAt: new Date()}]);
       }}>
         <PlusIcon />
-        Add Card
+        カードを追加
       </AddButton>
     </ColumnLayout>
   )
@@ -92,6 +123,11 @@ const Header = styled.div`
   color: var(--black);
   div + div {
     margin-left: 6px;
+  }
+  .title {
+    display: block;
+    margin-bottom: 6px;
+    vertical-align: center;
   }
   .trash {
     position: relative;
@@ -118,6 +154,7 @@ const AddButton = styled.button`
   border-radius: 6px;
   transition: background-color 0.2s;
   background: var(--black);
+  margin-top: 1rem;
   &:hover {
     background: var(--dark-gray);
   }

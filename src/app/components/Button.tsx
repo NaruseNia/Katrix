@@ -24,8 +24,8 @@ const ButtonWrapper = styled.button`
   max-height: 40px;
   width: 180px;
   color: var(--white);
-  font-weight: bold;
-  vertical-align: center;
+  font-weight: normal;
+  font-size: 1.2rem;
   border: solid 2px var(--gray);
   border-radius: 6px;
   transition: 0.2s ease-in-out;

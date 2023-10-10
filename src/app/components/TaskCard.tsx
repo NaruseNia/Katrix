@@ -26,9 +26,12 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
   };
 
   const enterTitle = (e: KeyboardEvent) => {
-    if (e.key == "Enter" && inputRef != null && inputRef.current.value != "") {
-      card.title = inputRef ? inputRef.current.value : card.title;
-      setTitleEdit(false);
+    if (inputRef != null && inputRef.current.value != "") {
+      if (e.key == "Enter") {
+        card.title = inputRef ? inputRef.current.value : card.title;
+        setTitleEdit(false);
+      }
+      if (e.key == "Escape") cancelEditTitle();
     }
 
   }

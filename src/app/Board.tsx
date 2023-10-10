@@ -8,10 +8,18 @@ import styles from "./Board.module.scss";
 import {ColumnContainer} from "@/app/components/ColumnContainer";
 import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {DndContext} from "@dnd-kit/core";
+import {useHotkeys} from "react-hotkeys-hook";
 
 export const Board = () => {
   const [columns, setColumns] = useState<Column[]>([]);
   const columnsId = useMemo(() => columns.map(c => c.id), [columns]);
+
+  useHotkeys("ctrl+alt+d", () => {
+    createColumn();
+  });
+  useHotkeys("ctrl+alt+a", () => {
+    createColumnLeft();
+  });
 
   const generateIdForColumn = () => {
     return `COLUMN-${Math.random().toString(32).substring(2)}`;
@@ -24,9 +32,10 @@ export const Board = () => {
   };
 
   const getRandomColor = (): string => {
-    const get256 = () => { return Math.floor(Math.random()*256); };
-    let [r, g, b] = [get256(), get256(), get256()];
-    return `rgb(${r}, ${g}, ${b})`;
+    const get100 = () => { return Math.floor(Math.random()*100); };
+    const get360 = () => { return Math.floor(Math.random()*360); };
+    let [h, s, l] = [get360(), get100(), "80%"];
+    return `hsl(${h}deg, ${s}%, ${l})`;
   }
   const createColumn = () => {
     const columnToAdd: Column = {
@@ -38,9 +47,22 @@ export const Board = () => {
 
     setColumns([...columns, columnToAdd]);
   };
+  const createColumnLeft = () => {
+    const columnToAdd: Column = {
+      id: generateIdForColumn(),
+      title: `Column ${columns.length + 1}`,
+      color: getRandomColor(),
+      cards: []
+    };
+
+    setColumns([columnToAdd, ...columns]);
+  };
 
   return (
     <div className={styles.wrapper}>
+      <Button onClick={createColumnLeft} className={styles.add_column_button_left}>
+        列を追加
+      </Button>
       <DndContext>
         <div className={styles.columns}>
           <SortableContext items={columnsId}>
@@ -51,8 +73,7 @@ export const Board = () => {
         </div>
       </DndContext>
       <Button onClick={createColumn} className={styles.add_column_button}>
-        <PlusIcon />
-        Add Column
+        列を追加
       </Button>
     </div>
   )
