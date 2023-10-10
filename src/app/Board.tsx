@@ -14,7 +14,7 @@ export const Board = () => {
   const columnsId = useMemo(() => columns.map(c => c.id), [columns]);
 
   const generateIdForColumn = () => {
-    return `CLM-${columns.length + 1}`;
+    return `COLUMN-${Math.random().toString(32).substring(2)}`;
   }
 
   const deleteColumn = (id: Id) => {
@@ -33,6 +33,7 @@ export const Board = () => {
       id: generateIdForColumn(),
       title: `Column ${columns.length + 1}`,
       color: getRandomColor(),
+      cards: []
     };
 
     setColumns([...columns, columnToAdd]);
