@@ -14,10 +14,10 @@ export const Board = () => {
   const [columns, setColumns] = useState<Column[]>([]);
   const columnsId = useMemo(() => columns.map(c => c.id), [columns]);
 
-  useHotkeys("ctrl+alt+d", () => {
+  useHotkeys("shift+alt+d", () => {
     createColumn();
   });
-  useHotkeys("ctrl+alt+a", () => {
+  useHotkeys("shift+alt+a", () => {
     createColumnLeft();
   });
 
