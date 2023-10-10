@@ -26,11 +26,8 @@ const ButtonWrapper = styled.button`
   color: var(--white);
   font-weight: bold;
   vertical-align: center;
+  border: solid 2px var(--gray);
   border-radius: 6px;
   transition: 0.2s ease-in-out;
-  box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.25);
   cursor: pointer;
-  &:hover {
-    box-shadow: 0 0 25px 0 rgba(255, 255, 255, 0.25);
-  }
 `;

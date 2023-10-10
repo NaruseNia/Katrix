@@ -1,11 +1,11 @@
 "use client"
 
 import {useMemo, useState} from "react";
-import {Column, Id} from "@/app/(components)/Column";
-import {Button} from "@/app/(components)/Button";
-import PlusIcon from "@/app/(components)/(icon)/PlusIcon";
+import {Column, Id} from "@/types";
+import {Button} from "@/app/components/Button";
+import PlusIcon from "@/app/components/icon/PlusIcon";
 import styles from "./Board.module.scss";
-import {ColumnContainer} from "@/app/(components)/ColumnContainer";
+import {ColumnContainer} from "@/app/components/ColumnContainer";
 import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {DndContext} from "@dnd-kit/core";
 

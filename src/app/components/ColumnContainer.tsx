@@ -1,13 +1,11 @@
 "use client"
 
-import {Column, Id} from "@/app/(components)/Column";
+import {Column, Id} from "@/types";
 import styled from "styled-components";
-import {TrashIcon} from "@/app/(components)/(icon)/TrashIcon";
+import {TrashIcon} from "@/app/components/icon/TrashIcon";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import {inspect} from "util";
-import styles = module
-import {DraggableIcon} from "@/app/(components)/(icon)/DraggableIcon";
+import {DraggableIcon} from "@/app/components/icon/DraggableIcon";
 
 interface Props {
   column: Column;
