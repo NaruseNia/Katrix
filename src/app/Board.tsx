@@ -36,10 +36,10 @@ export const Board = () => {
     })
   )
 
-  useHotkeys("shift+alt+d", () => {
+  useHotkeys("ctrl+alt+d", () => {
     createColumn();
   });
-  useHotkeys("shift+alt+a", () => {
+  useHotkeys("ctrl+alt+a", () => {
     createColumnLeft();
   });
 
