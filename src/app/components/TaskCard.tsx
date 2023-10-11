@@ -114,6 +114,7 @@ const Overlay = styled.div`
   min-height: 150px;
   border-radius: 6px;
   border: solid 4px var(--dark-gray);
+  margin-top: 1rem;
   background: var(--black);
   opacity: 0.5;
 `;
