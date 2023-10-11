@@ -6,13 +6,13 @@ import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {DraggableIcon} from "@/app/components/icon/DraggableIcon";
 import {TrashIcon} from "@/app/components/icon/TrashIcon";
 
-export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) => void}) => {
+export const TaskCard = ({card, deleteCard}: { card: Card, deleteCard: (id: Id) => void }) => {
   const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [descEdit, setDescEdit] = useState<boolean>(false);
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const descInputRef: MutableRefObject<HTMLTextAreaElement | null> = useRef(null);
 
-  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
+  const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
     id: card.id,
     data: {
       type: "Card",
@@ -68,7 +68,7 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
   }, [descEdit]);
 
   if (isDragging) {
-    return <Overlay color={card.parent.color} ref={setNodeRef} style={style} />
+    return <Overlay color={card.parent.color} ref={setNodeRef} style={style}/>
   }
 
   return (
@@ -77,36 +77,40 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
         <DraggableIcon width={12}/>
       </div>
       <div className="content">
-        {titleEdit ?
-          <input className="title_input"
-                 onKeyDown={(e) => enterTitle(e)}
-                 onBlur={cancelEditTitle}
-                 type="text"
-                 ref={inputRef}
-          />
-          :
-          <div className="header">
-            <div className="title" onClick={() => enterEditTitle()}>
-              {card.title}
-            </div>
-            <button className="delete" onClick={() => {deleteCard(card.id)}}>
-              <TrashIcon color="var(--white)" width={16}/>
-            </button>
-          </div>
+        <div className="header">
+          {titleEdit ?
+            <input className="title_input"
+                   onKeyDown={(e) => enterTitle(e)}
+                   onBlur={cancelEditTitle}
+                   type="text"
+                   ref={inputRef}
+            />
+            :
+            <>
+              <div className="title" onClick={() => enterEditTitle()}>
+                {card.title}
+              </div>
+              <button className="delete" onClick={() => {
+                deleteCard(card.id)
+              }}>
+                <TrashIcon color="var(--white)" width={16}/>
+              </button>
+            </>
         }
-        <div className="created">{card.createdAt.toDateString()}</div>
-        {descEdit ?
-          <textarea className="desc_input"
-                    onKeyDown={(e) => enterDesc(e)}
-                    ref={descInputRef}
-          />
-          :
-          <div className="desc" onClick={enterEditDesc}>{card.description}</div>
-        }
-        <div className="id">{card.id}</div>
       </div>
-    </CardWrapper>
-  )
+      <div className="created">{card.createdAt.toDateString()}</div>
+      {descEdit ?
+        <textarea className="desc_input"
+                  onKeyDown={(e) => enterDesc(e)}
+                  ref={descInputRef}
+        />
+        :
+        <div className="desc" onClick={enterEditDesc}>{card.description}</div>
+      }
+      <div className="id">{card.id}</div>
+    </div>
+</CardWrapper>
+)
 };
 
 const Overlay = styled.div`
@@ -126,48 +130,59 @@ const CardWrapper = styled.div`
   margin-top: 1rem;
   padding: 16px 0;
   border-radius: 6px;
+
   .draggable {
     display: grid;
     place-items: center;
     width: 40px;
     cursor: grab;
+
     svg {
-      height: 24px;  
+      height: 24px;
     }
   }
+
   .content {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     padding: 0 12px;
-    .title_input {
-      width: min-content;
-      font-weight: bold;
-      font-size: 18px;
-      border-radius: 6px;
-      color: var(--white);
-    }
+
     .header {
       display: flex;
+
       .title {
         font-weight: bold;
         font-size: 18px;
         margin-right: 8px;
       }
+      .title_input {
+        max-width: 200px;
+        font-weight: bold;
+        font-size: 18px;
+        border-radius: 6px;
+        color: var(--white);
+      }
+
+
       .delete {
       }
     }
+
     .created {
       color: var(--gray)
     }
+
     .desc {
       flex-grow: 1;
     }
+
     .desc_input {
       flex-grow: 1;
       height: fit-content;
       vertical-align: text-top;
     }
+
     .id {
       color: var(--dark-gray);
       font-size: 8px;
