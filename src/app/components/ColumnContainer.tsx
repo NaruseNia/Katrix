@@ -104,7 +104,7 @@ export const ColumnContainer = (props: Props) => {
 }
 
 const Overlay = styled.div`
-  width: 350px;
+  width: 300px;
   border-radius: 6px;
   border: solid 4px var(--dark-gray);
   background: var(--black);
@@ -114,7 +114,7 @@ const ColumnLayout = styled.div`
   display: flex;
   flex-direction: column;
   background: var(--black);
-  width: 350px;
+  width: 300px;
   border-radius: 6px;
 `;
 const Header = styled.div`

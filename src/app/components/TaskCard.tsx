@@ -111,16 +111,16 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
 
 const Overlay = styled.div`
   width: 90%;
-  min-height: 200px;
+  min-height: 150px;
   border-radius: 6px;
   border: solid 4px var(--dark-gray);
   background: var(--black);
   opacity: 0.5;
 `;
-const CardWrapper = styled.div<{color: string}>`
+const CardWrapper = styled.div`
   display: flex;
   width: 90%;
-  min-height: 200px;
+  min-height: 150px;
   background: var(--dark-black);
   margin-top: 1rem;
   padding: 16px 0;
@@ -142,7 +142,7 @@ const CardWrapper = styled.div<{color: string}>`
     .title_input {
       width: min-content;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       border-radius: 6px;
       color: var(--white);
     }
@@ -150,7 +150,7 @@ const CardWrapper = styled.div<{color: string}>`
       display: flex;
       .title {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 18px;
         margin-right: 8px;
       }
       .delete {
