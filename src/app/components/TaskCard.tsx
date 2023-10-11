@@ -163,10 +163,6 @@ const CardWrapper = styled.div`
         border-radius: 6px;
         color: var(--white);
       }
-
-
-      .delete {
-      }
     }
 
     .created {
@@ -175,12 +171,14 @@ const CardWrapper = styled.div`
 
     .desc {
       flex-grow: 1;
+      max-width: 230px;
     }
 
     .desc_input {
       flex-grow: 1;
-      height: fit-content;
       vertical-align: text-top;
+      height: auto;
+      max-width: 230px;
     }
 
     .id {
