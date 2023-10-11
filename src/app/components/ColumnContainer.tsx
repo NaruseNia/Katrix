@@ -121,24 +121,25 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   vertical-align: center;
-  height: 45px;
+  height: 72px;
   width: 100%;
   border-radius: 6px 6px 0 0;
   padding: 6px;
   font-weight: bold;
+  font-size: 18px;
   color: var(--black);
   div + div {
     margin-left: 6px;
   }
   .title {
     display: block;
+    flex-grow: 1;
     margin-bottom: 6px;
     vertical-align: center;
   }
   .trash {
     position: relative;
     display: flex;
-    flex-grow: 1;
     justify-content: flex-end;
   }
 `;
