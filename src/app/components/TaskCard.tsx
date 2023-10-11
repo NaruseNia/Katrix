@@ -9,10 +9,10 @@ import {TrashIcon} from "@/app/components/icon/TrashIcon";
 export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) => void}) => {
   const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [descEdit, setDescEdit] = useState<boolean>(false);
-  const inputRef: MutableRefObject<HTMLInputElement> = useRef(null);
-  const descInputRef: MutableRefObject<HTMLTextAreaElement> = useRef(null);
+  const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const descInputRef: MutableRefObject<HTMLTextAreaElement | null> = useRef(null);
 
-  const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: card.id,
     data: {
       type: "Card",
@@ -67,6 +67,10 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
     }
   }, [descEdit]);
 
+  if (isDragging) {
+    return <Overlay color={card.parent.color} ref={setNodeRef} style={style} />
+  }
+
   return (
     <CardWrapper color={card.parent.color} ref={setNodeRef} style={style}>
       <div className="draggable" {...attributes} {...listeners}>
@@ -85,7 +89,7 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
             <div className="title" onClick={() => enterEditTitle()}>
               {card.title}
             </div>
-            <button className="delete" onClick={() => deleteCard(card.id)}>
+            <button className="delete" onClick={() => {deleteCard(card.id)}}>
               <TrashIcon color="var(--white)" width={16}/>
             </button>
           </div>
@@ -105,6 +109,14 @@ export const TaskCard = ({card, deleteCard}: {card: Card, deleteCard: (id: Id) =
   )
 };
 
+const Overlay = styled.div`
+  width: 90%;
+  min-height: 200px;
+  border-radius: 6px;
+  border: solid 4px var(--dark-gray);
+  background: var(--black);
+  opacity: 0.5;
+`;
 const CardWrapper = styled.div<{color: string}>`
   display: flex;
   width: 90%;
@@ -123,6 +135,7 @@ const CardWrapper = styled.div<{color: string}>`
     display: grid;
     place-items: center;
     width: 40px;
+    cursor: grab;
     svg {
       height: 24px;  
     }

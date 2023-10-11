@@ -12,19 +12,20 @@ import PlusIcon from "@/app/components/icon/PlusIcon";
 
 interface Props {
   column: Column;
+  cards: Card[];
   deleteColumn: (id: Id) => void;
+  createCard: (columnId: Id) => void;
+  deleteCard: (id: Id) => void;
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, deleteColumn} = props;
-
-  const [cards, setCards] = useState<Card[]>([]);
+  const { column, cards = [], deleteColumn, createCard, deleteCard } = props;
   const [editTitle, setEditTitle] = useState<boolean>(false);
-  const cardsId = useMemo(() => cards.map(c => c.id), [cards])
-
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
+  const cardsId = useMemo(() => cards.map(c => c.id), [cards])
+
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,
     data: {
       type: "Column",
@@ -37,17 +38,8 @@ export const ColumnContainer = (props: Props) => {
     transform: CSS.Transform.toString(transform)
   };
 
-  const createId = () => {
-    return `CARD-${Math.random().toString(32).substring(2)}`;
-  }
-
-  const deleteCard = (id: Id) => {
-    const filtered = cards.filter((c) => c.id != id);
-    setCards(filtered);
-  }
-
   const confirmEdit = (e: KeyboardEvent) => {
-    if (inputRef != null && inputRef.current.value != "") {
+    if (inputRef.current != null && inputRef.current?.value != "") {
       if (e.key == "Enter") {
         column.title = inputRef.current.value
         setEditTitle(false);
@@ -56,16 +48,25 @@ export const ColumnContainer = (props: Props) => {
   }
 
   useEffect(() => {
+    console.log(cards)
+  }, [cards]);
+
+  useEffect(() => {
     if (inputRef.current != null) {
       inputRef.current.focus();
       inputRef.current.value = column.title;
     }
   }, [editTitle]);
 
+  if (isDragging) {
+    return <Overlay ref={setNodeRef} style={style}>
+
+    </Overlay>
+  }
   return (
     <ColumnLayout ref={setNodeRef} style={style}>
-      <Header style={{background: column.color}}>
-        <div {...attributes} {...listeners}>
+      <Header style={{background: column.color}} {...attributes} {...listeners}>
+        <div>
           <DraggableIcon />
         </div>
         {editTitle ?
@@ -94,9 +95,7 @@ export const ColumnContainer = (props: Props) => {
           ))}
         </SortableContext>
       </Content>
-      <AddButton onClick={() => {
-        setCards([...cards, {id: createId(), title: "新しいカード", description: "", createdAt: new Date(), parent: column}]);
-      }}>
+      <AddButton onClick={() => createCard(column.id)} >
         <PlusIcon />
         カードを追加
       </AddButton>
@@ -104,6 +103,13 @@ export const ColumnContainer = (props: Props) => {
   )
 }
 
+const Overlay = styled.div`
+  width: 350px;
+  border-radius: 6px;
+  border: solid 4px var(--dark-gray);
+  background: var(--black);
+  opacity: 0.5;
+`;
 const ColumnLayout = styled.div`
   display: flex;
   flex-direction: column;
